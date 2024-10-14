@@ -22,14 +22,18 @@ require_once 'bootstrap.php';
 // create a new account1 with balance 400
 pl('--------- [Start testing bank account #1, No overdraft] --------');
 $bankAccount1 = new BankAccount;
+$bankAccount1->openAccount();
+
 try {
     // show balance account
     $bankAccount1->setBalance(400);
     pl('My balance : ' . $bankAccount1->getBalance());
     // close account
-    
+    $bankAccount1->closeAccount();
+    pl('My account is now closed. ');
     // reopen account
-
+    $bankAccount1->reopenAccount();
+    pl('My account is now reopened. ');
 
     // deposit +150 
     pl('Doing transaction deposit (+150) with current balance ' . $bankAccount1->getBalance());
