@@ -28,7 +28,7 @@ class BankAccount implements BackAccountInterface
 
     }
     public function openAccount(): bool {
-        return true;
+        return $this->status;
     }
     public function reopenAccount(): void {
 
@@ -37,7 +37,7 @@ class BankAccount implements BackAccountInterface
 
     }
     public function getBalance(): float {
-        return 0;
+        return $this->balance;
     }
     
     public function getOverdraft(): OverdraftInterface {
@@ -47,6 +47,6 @@ class BankAccount implements BackAccountInterface
 
     }
     public function setBalance($float): void {
-        
+        $this->balance = $float;
     }
 }
