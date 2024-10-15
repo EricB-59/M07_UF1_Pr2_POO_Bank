@@ -30,7 +30,7 @@ try {
     
     // close account
     $bankAccount1->closeAccount();
-    pl('My account is now closed. ');
+    pl('My account is now close. ');
     
     // reopen account
     $bankAccount1->reopenAccount();
