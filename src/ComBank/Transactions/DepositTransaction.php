@@ -10,9 +10,15 @@
 use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class DepositTransaction 
+class DepositTransaction implements BankTransactionInterface
 {
+    public function applyTransaction($BankAccountInterface): float{
 
+    }
+    public function getTransactionInfo(): string{
 
-   
+    }
+    public function getAmount(): float{
+
+    }
 }
