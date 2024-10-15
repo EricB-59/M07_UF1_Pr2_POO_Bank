@@ -21,16 +21,17 @@ require_once 'bootstrap.php';
 //---[Bank account 1]---/
 // create a new account1 with balance 400
 pl('--------- [Start testing bank account #1, No overdraft] --------');
-$bankAccount1 = new BankAccount;
-$bankAccount1->openAccount();
 
 try {
+    $bankAccount1 = new BankAccount(0,true,false);
     // show balance account
     $bankAccount1->setBalance(400);
     pl('My balance : ' . $bankAccount1->getBalance());
+    
     // close account
     $bankAccount1->closeAccount();
     pl('My account is now closed. ');
+    
     // reopen account
     $bankAccount1->reopenAccount();
     pl('My account is now reopened. ');

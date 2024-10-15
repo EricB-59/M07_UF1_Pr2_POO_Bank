@@ -13,12 +13,12 @@ use ComBank\Transactions\Contracts\BankTransactionInterface;
 class DepositTransaction implements BankTransactionInterface
 {
     public function applyTransaction($BankAccountInterface): float{
-
+        return 0;
     }
     public function getTransactionInfo(): string{
-
+        return "f";
     }
     public function getAmount(): float{
-
+        return 0;
     }
 }

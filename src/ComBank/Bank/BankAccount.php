@@ -24,8 +24,14 @@ class BankAccount implements BackAccountInterface
     private $status;
     private $overdraft;
 
-    public function transaction($BankTransactionInterface): void{
+    function __construct($balance, $status, $overdraft) {
+        $this->balance = $balance;
+        $this->status = $status;
+        $this->overdraft = $overdraft;
+    }
 
+    public function transaction($BankTransactionInterface): void{
+        
     }
     public function openAccount(): bool {
         $this->status = true;
