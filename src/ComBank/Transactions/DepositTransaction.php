@@ -10,9 +10,12 @@
 use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class DepositTransaction implements BankTransactionInterface
+class DepositTransaction extends BaseTransaction implements BankTransactionInterface
 {
-    public function applyTransaction($BankAccountInterface): float{
+    public function __construct(){
+        
+    }
+    public function applyTransaction(BackAccountInterface $bankAccount): float{
         return 0;
     }
     public function getTransactionInfo(): string{
