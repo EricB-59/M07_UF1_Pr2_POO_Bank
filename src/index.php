@@ -40,7 +40,7 @@ try {
 
     // withdrawal -25
     pl('Doing transaction withdrawal (-25) with current balance ' . $bankAccount1->getBalance());
-
+    $bankAccount1->transaction(bankTransaction: new WithdrawTransaction(25));
     pl('My new balance after withdrawal (-25) : ' . $bankAccount1->getBalance());
 
     // withdrawal -600

@@ -30,7 +30,7 @@ class BankAccount implements BackAccountInterface
     }
 
     public function transaction(BankTransactionInterface $bankTransaction): void{
-        
+        $this->setBalance($bankTransaction->applyTransaction($this));
     }
     public function openAccount(): bool {
         return 0;
