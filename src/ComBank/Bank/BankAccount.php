@@ -25,10 +25,15 @@ class BankAccount extends BankAccountException implements BackAccountInterface
     private $status;
     private $overdraft;
 
-    function __construct($balance) {
+    function __construct($balance, OverdraftInterface $overdraft = null) {
         $this->balance = $balance;
         $this->status = BackAccountInterface::STATUS_OPEN;
-        $this->overdraft = new NoOverdraft();
+    
+        if ($overdraft === null) {
+            $this->overdraft = new NoOverdraft();
+        } else {
+            $this->overdraft = $overdraft;
+        }
     }
 
     public function transaction(BankTransactionInterface $bankTransaction): void{
@@ -38,6 +43,8 @@ class BankAccount extends BankAccountException implements BackAccountInterface
             } catch (BankAccountException $e) {
                 throw new BankAccountException($e->getMessage(), $e->getCode(), $e);
             }
+        }else{
+            throw new BankAccountException('This account is closed');
         }
     }
     public function openAccount(): bool {
@@ -60,7 +67,7 @@ class BankAccount extends BankAccountException implements BackAccountInterface
     
     public function closeAccount(): void {
         if ($this->status == BackAccountInterface::STATUS_CLOSED) {
-            throw new BankAccountException('Cannot close an account that is already closed.');
+            throw new BankAccountException('Error: Account is alredy closed.');
         }
     
         $this->status = BackAccountInterface::STATUS_CLOSED;

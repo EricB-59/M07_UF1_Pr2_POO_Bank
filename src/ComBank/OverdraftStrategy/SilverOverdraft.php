@@ -17,7 +17,6 @@ class SilverOverdraft implements OverdraftInterface
         return ($this->getOverdraftFundsAmount() + $newAmount) >= 100;
     }
     public function getOverdraftFundsAmount(): float{
-        return 100;
+        return 0;
     }
-   
 }

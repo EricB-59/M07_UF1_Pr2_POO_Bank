@@ -25,6 +25,8 @@ class WithdrawTransaction extends BaseTransaction implements BankTransactionInte
 
         $finalBalance = $balance - $amountTransaction;
 
+        echo $finalBalance;
+
         if ($finalBalance < 0) {
             if ($overdraftAccount->isGrantOverdraftFunds($amountTransaction)) {
                 throw new FailedTransactionException("Insufficient balance to complete the withdrawal.");
