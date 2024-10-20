@@ -21,7 +21,7 @@ class DepositTransaction extends BaseTransaction implements BankTransactionInter
         return $balance += $amountTransaction;
     }
     public function getTransactionInfo(): string{
-        return "f";
+        return 'DEPOSIT_TRANSACTION';
     }
     public function getAmount(): float{
         return $this->amount;

@@ -18,7 +18,8 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class BankAccount implements BackAccountInterface
+
+class BankAccount extends BankAccountException implements BackAccountInterface 
 {
     private $balance;
     private $status;
@@ -27,35 +28,54 @@ class BankAccount implements BackAccountInterface
     function __construct($balance) {
         $this->balance = $balance;
         $this->status = BackAccountInterface::STATUS_OPEN;
+        $this->overdraft = new NoOverdraft();
     }
 
     public function transaction(BankTransactionInterface $bankTransaction): void{
-        $this->setBalance($bankTransaction->applyTransaction($this));
+        if ($this->status === BackAccountInterface::STATUS_OPEN) {
+            try {
+                $this->setBalance($bankTransaction->applyTransaction($this));
+            } catch (BankAccountException $e) {
+                throw new BankAccountException($e->getMessage(), $e->getCode(), $e);
+            }
+        }
     }
     public function openAccount(): bool {
-        return 0;
+        if ($this->status == BackAccountInterface::STATUS_OPEN) {
+            return true;
+        }else {
+            return false;
+        }
     }
     public function reopenAccount(): void {
-        if ($this->status === BackAccountInterface::STATUS_CLOSED) {
+        if ($this->status == BackAccountInterface::STATUS_OPEN) {
+            throw new BankAccountException('Cannot reopen an account that is already open.');
+        }
+    
+        if ($this->status == BackAccountInterface::STATUS_CLOSED) {
             $this->status = BackAccountInterface::STATUS_OPEN;
-            pl('My account is now reopened. ');
+            echo('<br> My account is now reopened.<br> ');
         }
     }
+    
     public function closeAccount(): void {
-        if ($this->status === BackAccountInterface::STATUS_OPEN) {
-            $this->status = BackAccountInterface::STATUS_CLOSED;
-            pl('My account is now closed. ');
+        if ($this->status == BackAccountInterface::STATUS_CLOSED) {
+            throw new BankAccountException('Cannot close an account that is already closed.');
         }
+    
+        $this->status = BackAccountInterface::STATUS_CLOSED;
+        echo('<br> My account is now closed. <br> ');
     }
+    
     public function getBalance(): float {
         return $this->balance;
     }
     
     public function getOverdraft(): OverdraftInterface {
-
+        return $this->overdraft;
     }
-    public function applyOverdraft($OverdraftInterface): void {
-
+    public function applyOverdraft(OverdraftInterface $overdraft): void {
+        $this->overdraft = $overdraft;
     }
     public function setBalance($float): void {
         $this->balance = $float;
