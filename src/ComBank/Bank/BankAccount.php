@@ -35,14 +35,13 @@ class BankAccount extends BankAccountException implements BackAccountInterface
             $this->overdraft = $overdraft;
         }
     }
-
     public function transaction(BankTransactionInterface $bankTransaction): void{
         if ($this->status === BackAccountInterface::STATUS_OPEN) {
             try {
                 $this->setBalance($bankTransaction->applyTransaction($this));
-            } catch (BankAccountException $e) {
-                throw new BankAccountException($e->getMessage(), $e->getCode(), $e);
-            }
+            } catch (InvalidOverdraftFundsException $e) {
+                throw new FailedTransactionException($e->getMessage(), $e->getCode(), $e);
+            } 
         }else{
             throw new BankAccountException('This account is closed');
         }
@@ -71,7 +70,7 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         }
     
         $this->status = BackAccountInterface::STATUS_CLOSED;
-        echo('<br> My account is now closed. <br> ');
+        echo('<br> My account is now closed. <br>');
     }
     
     public function getBalance(): float {

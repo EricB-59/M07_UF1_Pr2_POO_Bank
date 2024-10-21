@@ -14,9 +14,9 @@
 class SilverOverdraft implements OverdraftInterface
 {
     public function isGrantOverdraftFunds(float $newAmount): bool{
-        return ($this->getOverdraftFundsAmount() + $newAmount) >= 100;
+        return $newAmount + $this->getOverdraftFundsAmount() >= 0;
     }
     public function getOverdraftFundsAmount(): float{
-        return 0;
+        return 100.0;
     }
 }
