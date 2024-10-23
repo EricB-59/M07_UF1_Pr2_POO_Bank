@@ -15,6 +15,7 @@ use ComBank\Transactions\Contracts\BankTransactionInterface;
 class WithdrawTransaction extends BaseTransaction implements BankTransactionInterface
 {
     public function __construct($amount){
+        parent::validateAmount($amount);
         $this->amount = $amount;
     }
     public function applyTransaction(BackAccountInterface $bankAccount): float{
