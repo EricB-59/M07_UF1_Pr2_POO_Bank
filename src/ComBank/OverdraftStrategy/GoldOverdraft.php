@@ -8,12 +8,15 @@
  * Time: 12:27 PM
  */
 
-class NoOverdraft implements OverdraftInterface
+/**
+ * @description: Grant 500.00 overdraft funds.
+ * */
+class GoldOverdraft implements OverdraftInterface
 {
     public function isGrantOverdraftFunds(float $newAmount): bool{
         return $newAmount + $this->getOverdraftFundsAmount() >= 0;
     }
     public function getOverdraftFundsAmount(): float{
-        return 0.0;
+        return 500.0;
     }
 }

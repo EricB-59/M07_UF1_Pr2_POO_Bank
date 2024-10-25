@@ -45,6 +45,7 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         }else{
             throw new BankAccountException('This account is closed');
         }
+        
     }
     public function openAccount(): bool {
         if ($this->status == BackAccountInterface::STATUS_OPEN) {
