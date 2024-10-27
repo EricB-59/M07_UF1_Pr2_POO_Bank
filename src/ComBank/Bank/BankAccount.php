@@ -17,6 +17,7 @@ use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
+use ComBank\Transactions\HistoryTransaction;
 
 
 class BankAccount extends BankAccountException implements BackAccountInterface 
@@ -39,6 +40,7 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         if ($this->status === BackAccountInterface::STATUS_OPEN) {
             try {
                 $this->setBalance($bankTransaction->applyTransaction($this));
+                new HistoryTransaction($bankTransaction, $bankTransaction->getAmount(), $array = []);
             } catch (InvalidOverdraftFundsException $e) {
                 throw new FailedTransactionException($e->getMessage(), $e->getCode(), $e);
             } 
