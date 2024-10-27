@@ -24,10 +24,19 @@ class WithdrawTransaction extends BaseTransaction implements BankTransactionInte
         $finalBalance = $balance - $amountTransaction;
 
         $overdraft = $bankAccount->getOverdraft()->isGrantOverdraftFunds($finalBalance);
-
+        
         if ($finalBalance < 0) {
+            $path = "ComBank\OverdraftStrategy"; 
+            $rate = 0;
+
+            match ($bankAccount->getOverdraft()::class) {
+                $path."\NoOverdraft" => $rate = 0,
+                $path."\BasicOverdraft" => $rate = 5,
+                $path."\SilverOverdraft" => $rate = 2,
+                $path."\GoldOverdraft" => $rate = 1,
+            };
             if ($overdraft) {
-                return $finalBalance;
+                return $finalBalance * (1 + $rate / 100);
             }else{
                 throw new InvalidOverdraftFundsException("Insufficient balance to complete the withdrawal.");
             }
