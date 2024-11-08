@@ -8,6 +8,8 @@
  */
 
 use ComBank\Bank\BankAccount;
+use ComBank\Bank\InternationalBankAccount;
+use ComBank\Bank\NationalBankAccount;
 use ComBank\OverdraftStrategy\SilverOverdraft;
 use ComBank\Transactions\DepositTransaction;
 use ComBank\Transactions\WithdrawTransaction;
@@ -108,3 +110,15 @@ try {
 } catch (BankAccountException $e) {
     pl($e->getMessage());
 }
+
+
+//---[Bank account 3]---/
+pl('--------- [Start testing national account (No conversion)] --------');
+$bankAccount3 = new NationalBankAccount(500);
+pl('My balance : ' . $bankAccount3->getBalance());
+
+//---[Bank account 4]---/
+// create a new account3 with balance 400 - currency EUR
+pl('--------- [Start testing bank account #3, No overdraft] --------');
+$bankAccount4 = new InternationalBankAccount(400, null, "EUR");
+$bankAccount4->getConvertedBalance();
