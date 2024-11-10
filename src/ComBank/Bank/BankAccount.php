@@ -28,7 +28,7 @@ class BankAccount extends BankAccountException implements BackAccountInterface
     protected $overdraft;
     protected $currency;
     
-    function __construct($balance, OverdraftInterface $overdraft = null, string $currency = "EUR") {
+    function __construct($balance, OverdraftInterface $overdraft = null, $currency = "EUR") {
         $this->balance = $balance;
         $this->status = BackAccountInterface::STATUS_OPEN;
     
@@ -37,10 +37,8 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         } else {
             $this->overdraft = $overdraft;
         }
-
-        if($currency != "EUR"){
-            $this->currency = $currency;
-        }
+        
+        $this->currency = $currency;
     }
     public function transaction(BankTransactionInterface $bankTransaction): void{
         if ($this->status === BackAccountInterface::STATUS_OPEN) {
@@ -87,10 +85,16 @@ class BankAccount extends BankAccountException implements BackAccountInterface
     public function getOverdraft(): OverdraftInterface {
         return $this->overdraft;
     }
+
     public function applyOverdraft(OverdraftInterface $overdraft): void {
         $this->overdraft = $overdraft;
     }
+
     public function setBalance($float): void {
         $this->balance = $float;
+    }
+
+    public function getCurrency(): string {
+        return $this->currency;
     }
 }

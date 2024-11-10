@@ -120,5 +120,7 @@ pl('My balance : ' . $bankAccount3->getBalance());
 //---[Bank account 4]---/
 // create a new account3 with balance 400 - currency EUR
 pl('--------- [Start testing bank account #3, No overdraft] --------');
-$bankAccount4 = new InternationalBankAccount(400, null, "EUR");
-$bankAccount4->getConvertedBalance();
+$bankAccount4 = new InternationalBankAccount(300, null);
+pl('My balance : ' . $bankAccount4->getBalance() . ' (' . $bankAccount4->getCurrency() . ')');
+pl('Converted baance : ' . $bankAccount4->getConvertedBalance(). " (".$bankAccount4->getConvertedCurrency().")");
+

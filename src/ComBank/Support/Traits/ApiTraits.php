@@ -8,20 +8,33 @@ trait ApiTraits
 
     //}
     public function convertBalance(float $balance): float{
+        $from = 'EUR';
+        $to = 'USD'; 
+
+        $url = "https://api.fxfeed.io/v1/convert?api_key=fxf_FZUKOloOQGT4CFYaqsxq&from=$from&to=$to&amount=$balance";
+
+        $headers = [
+            "Accept: application/json",
+            "x-api-key: sk_0bedebec6a3c4d07b5bb28045098e4e6" 
+        ];
+
         $ch = curl_init();
-        $url = 'https://manyapis.com/products/currency/eur-to-usd-rate?amount='.$balance;
-        var_dump($url);
+
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt_array($ch, array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => 'sk_4b169a7fa2904da0a5e482d24b859149',
-            CURLOPT_SSL_VERIFYPEER => false,
-        ));
-        $result = curl_exec($ch);
-        var_dump($result);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'Error en la petición: ' . curl_error($ch);
+        } else {
+            $data = json_decode($response, true);
+        }
+        
         curl_close($ch);
-        $convertJson = json_decode($result);
-        return $convertJson->convertedAmount;
+
+        return $data["result"];
     }
     //public function detectFraud (BankTransactionInterface $transaction): bool{
 
