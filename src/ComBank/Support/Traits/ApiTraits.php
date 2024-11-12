@@ -4,9 +4,19 @@ use ComBank\Transactions\Contracts\BankTransactionInterface;
 
 trait ApiTraits 
 {
-    //public function validateEmail (string $email): bool{
+    public function validateEmail (string $email): bool{
+        $url = "https://api.usercheck.com/email/$email";
 
-    //}
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        var_dump($response);
+        return true;
+
+    }
     public function convertBalance(float $balance): float{
         $from = 'EUR';
         $to = 'USD'; 
@@ -19,12 +29,7 @@ trait ApiTraits
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            echo 'Error en la petición: ' . curl_error($ch);
-        } else {
-            $data = json_decode($response, true);
-        }
+        $data = json_decode($response, true);
         
         curl_close($ch);
 

@@ -18,17 +18,19 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 use ComBank\Support\Traits\ApiTraits;
+use ComBank\Person\Person;
 
 
 class BankAccount extends BankAccountException implements BackAccountInterface 
 {
     use ApiTraits;
+    protected Person $holder;
     protected $balance;
     protected $status;
     protected $overdraft;
     protected $currency;
     
-    function __construct($balance, OverdraftInterface $overdraft = null, $currency = "EUR") {
+    function __construct($balance, OverdraftInterface $overdraft = null, $currency = null, Person $holder = null) {
         $this->balance = $balance;
         $this->status = BackAccountInterface::STATUS_OPEN;
     
@@ -37,8 +39,14 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         } else {
             $this->overdraft = $overdraft;
         }
+
+        if ($currency === null) {
+            $this->currency= "EUR";
+        } else {
+            $this->currency = $currency;
+        }
         
-        $this->currency = $currency;
+        //$this->holder = $holder;
     }
     public function transaction(BankTransactionInterface $bankTransaction): void{
         if ($this->status === BackAccountInterface::STATUS_OPEN) {
