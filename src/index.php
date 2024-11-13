@@ -16,6 +16,7 @@ use ComBank\Transactions\WithdrawTransaction;
 use ComBank\Exceptions\BankAccountException;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\Exceptions\ZeroAmountException;
+use ComBank\Person\Person;
 
 require_once 'bootstrap.php';
 
@@ -125,4 +126,9 @@ pl('My balance : ' . $bankAccount4->getBalance() . ' € (' . $bankAccount4->get
 pl('Converted baance : ' . $bankAccount4->getConvertedBalance(). " (".$bankAccount4->getConvertedCurrency().")");
 
 pl('--------- [Start testing national account] --------');
-pl('validating email: ');
+$person1 = new Person("Eric", "23","john.doe@example.com");
+
+pl('--------- [Start testing international account] --------');
+$person2 = new Person("Eric", "23","john.doe@invalid-email");
+
+

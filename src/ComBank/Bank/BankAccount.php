@@ -24,7 +24,7 @@ use ComBank\Person\Person;
 class BankAccount extends BankAccountException implements BackAccountInterface 
 {
     use ApiTraits;
-    protected Person $holder;
+    protected ?Person $holder;
     protected $balance;
     protected $status;
     protected $overdraft;
@@ -41,13 +41,14 @@ class BankAccount extends BankAccountException implements BackAccountInterface
         }
 
         if ($currency === null) {
-            $this->currency= "EUR";
+            $this->currency = "EUR";
         } else {
             $this->currency = $currency;
         }
         
-        //$this->holder = $holder;
+        $this->holder = $holder;
     }
+    
     public function transaction(BankTransactionInterface $bankTransaction): void{
         if ($this->status === BackAccountInterface::STATUS_OPEN) {
             try {

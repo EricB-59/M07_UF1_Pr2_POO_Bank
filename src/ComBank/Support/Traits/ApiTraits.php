@@ -10,12 +10,14 @@ trait ApiTraits
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
         $response = curl_exec($ch);
+        
         curl_close($ch);
-
-        var_dump($response);
-        return true;
-
+        
+        $data = json_decode($response, true);
+        
+        return $data["status"] == 200 ? true : false;
     }
     public function convertBalance(float $balance): float{
         $from = 'EUR';

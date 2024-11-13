@@ -12,7 +12,14 @@ class Person
     function __construct($name, $idCard, $email){
         $this->name = $name;
         $this->idCard = $idCard;
-        $this->email = $email;
+        if ($this->validateEmail($email)) {
+            $this->email = $email;
+            pl('validating email: '.$this->getEmail());
+            pl('Email is valid');
+        } else {
+            pl('validating email: '.$email);
+            pl('Error: Invalid email address: '.$email);
+        }
     }
 
     public function getName()
