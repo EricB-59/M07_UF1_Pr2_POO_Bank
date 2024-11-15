@@ -17,8 +17,9 @@ trait ApiTraits
         
         $data = json_decode($response, true);
         
-        return $data["status"] == 200 ? true : false;
+        return $data["status"] == 200;
     }
+    
     public function convertBalance(float $balance): float{
         $from = 'EUR';
         $to = 'USD'; 
