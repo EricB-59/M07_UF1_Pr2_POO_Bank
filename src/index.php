@@ -144,3 +144,18 @@ try {
 } catch (FailedTransactionException $e) {
     pl('Error transaction: ' . $e->getMessage());
 }
+
+pl('--------- [Start testing withdraw block] --------');
+$bankAccount6 = new BankAccount(5000);
+
+pl('Doing transaction withdraw (-100) with current balance ' . $bankAccount6->getBalance());
+$bankAccount6->transaction(bankTransaction: new WithdrawTransaction(100));
+pl('My new balance after withdraw (-100) : ' . $bankAccount6->getBalance());
+try {
+    pl('Doing transaction withdraw (+5001) with current balance ' . $bankAccount6->getBalance());
+    $bankAccount6->transaction(bankTransaction: new WithdrawTransaction(5001));
+    pl('My new balance after withdraw (+5001) : ' . $bankAccount6->getBalance());
+} catch (FailedTransactionException $e) {
+    pl('Error transaction: ' . $e->getMessage());
+}
+
