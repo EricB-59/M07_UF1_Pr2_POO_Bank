@@ -131,4 +131,16 @@ $person1 = new Person("Eric", "23","john.doe@example.com");
 pl('--------- [Start testing international account] --------');
 $person2 = new Person("Eric", "23","john.doe@invalid-email");
 
+pl('--------- [Start testing deposit block] --------');
+$bankAccount5 = new BankAccount(600);
 
+pl('Doing transaction deposit (+100) with current balance ' . $bankAccount5->getBalance());
+$bankAccount5->transaction(bankTransaction: new DepositTransaction(100));
+pl('My new balance after deposit (+100) : ' . $bankAccount5->getBalance());
+try {
+    pl('Doing transaction deposit (+20001) with current balance ' . $bankAccount5->getBalance());
+    $bankAccount5->transaction(bankTransaction: new DepositTransaction(20001));
+    pl('My new balance after deposit (+20001) : ' . $bankAccount5->getBalance());
+} catch (FailedTransactionException $e) {
+    pl('Error transaction: ' . $e->getMessage());
+}
