@@ -1,11 +1,16 @@
 <?php namespace ComBank\Support\Traits;
 
+use Resend\Resend;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
+use ComBank\Person\Person;
+
+require_once '/opt/lampp/htdocs/M07_UF1_Pr2_POO_Bank/vendor/autoload.php';
+
 
 trait ApiTraits 
 {
     public function validateEmail (string $email): bool{
-        $url = "https://api.usercheck.com/email/$email";
+        $url = "https://api.usercheck.com/email/$email?key=6wvX5LJCQn0iqC9kQv1xqNoCbO6dgqaX";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -68,5 +73,24 @@ trait ApiTraits
         }
 
         return $fraud;
+    }
+
+
+    public function sendEmail(Person $person): void{
+        var_dump("hola");
+        $resend = Resend::client('re_UspEw9hn_7sjBQQXuc5tQ6x6W93Hzqtbt');
+        var_dump("hola2");
+        
+        $emailPerson = $person->getEmail();
+
+        $resend->emails->send([
+            'from' => 'Acme <onboarding@resend.dev>',
+            'to' => ['delivered@resend.dev'],
+            'subject' => 'hello world',
+            'html' => '<p>it works!</p>'
+        ]);
+        echo "Correo enviado correctamente.";
+
+        var_dump("hola3");
     }
 }

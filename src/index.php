@@ -159,3 +159,8 @@ try {
     pl('Error transaction: ' . $e->getMessage());
 }
 
+
+pl('--------- [Start testing send email] --------');
+$person4 = new Person('Eric', '3','ebaenac59@gmail.com');
+$person4->sendEmailToPerson();
+pl('hola');

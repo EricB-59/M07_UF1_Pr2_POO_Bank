@@ -36,4 +36,8 @@ class Person
     {
         return $this->email;
     }
+
+    public function sendEmailToPerson() {
+        $this->sendEmail($this);
+    }
 }

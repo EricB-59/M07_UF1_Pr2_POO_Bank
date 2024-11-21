@@ -9,7 +9,8 @@
     }
   ],
   "require": {
-    "php": ">=8.0"
+    "php": ">=8.0",
+    "resend/resend-php": "dev-main"
   },
   "autoload": {
     "psr-4": {
