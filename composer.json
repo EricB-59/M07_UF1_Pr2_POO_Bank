@@ -10,7 +10,7 @@
   ],
   "require": {
     "php": ">=8.0",
-    "resend/resend-php": "dev-main"
+    "resend/resend-php": "^0.6.0"
   },
   "autoload": {
     "psr-4": {

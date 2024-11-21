@@ -1,6 +1,6 @@
 <?php namespace ComBank\Support\Traits;
 
-use Resend\Resend;
+use \vendor\src\Resend\Resend;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 use ComBank\Person\Person;
 
@@ -77,20 +77,21 @@ trait ApiTraits
 
 
     public function sendEmail(Person $person): void{
-        var_dump("hola");
-        $resend = Resend::client('re_UspEw9hn_7sjBQQXuc5tQ6x6W93Hzqtbt');
-        var_dump("hola2");
-        
-        $emailPerson = $person->getEmail();
+        // Assign a new Resend Client instance to $resend variable, which is automatically autoloaded...
+        $resend = Resend::client('re_cPUrygsJ_F9Mo72L248P7SoL6KjwtHUG6');
 
-        $resend->emails->send([
-            'from' => 'Acme <onboarding@resend.dev>',
-            'to' => ['delivered@resend.dev'],
-            'subject' => 'hello world',
-            'html' => '<p>it works!</p>'
-        ]);
-        echo "Correo enviado correctamente.";
+        try {
+            $result = $resend->emails->send([
+                'from' => 'Acme <onboarding@resend.dev>',
+                'to' => [$person->getEmail()],
+                'subject' => 'Confirmation email',
+                'html' => '<strong>This is an email to confirm your new bank account.</strong>',
+            ]);
+        } catch (\Exception $e) {
+            exit('Error: ' . $e->getMessage());
+        }
 
-        var_dump("hola3");
+        // Show the response of the sent email to be saved in a log...
+        echo $result->toJson();
     }
 }

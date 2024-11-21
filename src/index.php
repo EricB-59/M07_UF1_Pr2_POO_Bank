@@ -20,7 +20,6 @@ use ComBank\Person\Person;
 
 require_once 'bootstrap.php';
 
-
 //---[Bank account 1]---/
 // create a new account1 with balance 400
 pl('--------- [Start testing bank account #1, No overdraft] --------');
@@ -163,4 +162,3 @@ try {
 pl('--------- [Start testing send email] --------');
 $person4 = new Person('Eric', '3','ebaenac59@gmail.com');
 $person4->sendEmailToPerson();
-pl('hola');
